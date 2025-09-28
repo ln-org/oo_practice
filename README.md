@@ -1,5 +1,5 @@
 # oo_practice
-This repo is using for practices of object-oriented programming.
+This repo is using for practices(p1 and p2) of object-oriented programming.
 
 ## p1a (java)
 ``` bash
