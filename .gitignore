@@ -1,2 +1,12 @@
 *.class
 *.jar
+.venv/
+__pycache__/
+*.log
+.DS_Store
+.idea/
+.vscode/
+node_modules/
+dist/
+build/
+.env
