@@ -1,0 +1,116 @@
+@startuml jungle
+
+package jungle {
+    class Game {
+        +int HEIGHT = 9
+        +int WIDTH = 7
+        +List WATER_ROWS = [3, 4, 5]
+        +List WATER_COLS = [1, 2, 4, 5]
+        +int DEN_COL = 3
+        
+        +Game(Player p0, Player p1)
+        +void add_starting_pieces()
+        +void add_piece(int row, int col, int rank, int player_number)
+        +Piece get_piece(int row, int col)
+        +void move(int from_row, int from_col, int to_row, int to_col)
+        +Player get_player(int player_number)
+        +Player get_winner()
+        +boolean is_game_over()
+        +Square get_square(int row, int col)
+        +List<Coordinate> get_legal_moves(int row, int col)
+    }
+    
+    class Coordinate {
+        +int row()
+        +int col()
+    }
+    
+    class IllegalMoveException {
+    }
+    
+    package squares {
+        abstract class Square {
+            +Square(Player owner)
+            +boolean is_owned_by(Player player)
+            +boolean is_water()
+            +boolean is_den()
+            +boolean is_trap()
+        }
+        
+        class Den {
+            +Den(Player owner)
+        }
+        
+        class Trap {
+            +Trap(Player owner)
+        }
+        
+        class PlainSquare {
+            +PlainSquare()
+        }
+        
+        class WaterSquare {
+            +WaterSquare()
+        }
+    }
+    
+    package pieces {
+        class Piece {
+            +Piece(Player owner, Square square, int rank)
+            +boolean is_owned_by(Player player)
+            +int get_strength()
+            +boolean can_swim()
+            +boolean can_leap_horizontally()
+            +boolean can_leap_vertically()
+            +void move(Square to_square)
+            +boolean can_defeat(Piece target)
+            +void be_captured()
+        }
+        
+        class Rat {
+            +Rat(Player owner, Square square)
+        }
+        
+        class Tiger {
+            +Tiger(Player owner, Square square)
+        }
+        
+        class Lion {
+            +Lion(Player owner, Square square)
+        }
+    }
+    
+    class Player {
+        +Player(String name, int player_number)
+        +String get_name()
+        +int get_player_number()
+        +void capture_den()
+        +boolean has_captured_den()
+        +boolean has_pieces()
+        +void gain_one_piece()
+        +void lose_one_piece()
+    }
+}
+
+
+Game --> Coordinate
+Game --> IllegalMoveException
+Game --> Square
+Game --> Piece : manages
+Game "1" -down-> "2" Player : played by
+
+Square <|-- Den
+Square <|-- Trap
+Square <|-- PlainSquare
+Square <|-- WaterSquare
+
+Piece <|-- Rat
+Piece <|-- Tiger
+Piece <|-- Lion
+
+Square "1" <-up- "0..1" Piece : sits on
+Piece "*" --> "1" Player : owner
+Square --> Player : owner
+
+
+@enduml
