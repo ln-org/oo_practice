@@ -4,13 +4,14 @@ Each square can have an owner, and may represent a specific type such as
 a Den, Trap, Water, or Plain square.
 """
 
+from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING, Optional
 
 if TYPE_CHECKING:
     from ..player import Player
 
 
-class Square:
+class Square(ABC):
     """
     Abstract base class for squares on the game board.
     
@@ -39,6 +40,7 @@ class Square:
         """
         return player == self._owner
     
+    @abstractmethod
     def is_water(self) -> bool:
         """
         Indicates if this square is a Water square.
@@ -47,8 +49,9 @@ class Square:
         Returns:
             True if this square is a Water square, False otherwise
         """
-        return False
+        pass
     
+    @abstractmethod
     def is_den(self) -> bool:
         """
         Indicates if this square is a Den.
@@ -57,8 +60,9 @@ class Square:
         Returns:
             True if this square is a Den, False otherwise
         """
-        return False
-    
+        pass
+
+    @abstractmethod
     def is_trap(self) -> bool:
         """
         Indicates if this square is a Trap.
@@ -67,4 +71,4 @@ class Square:
         Returns:
             True if this square is a Trap, False otherwise
         """
-        return False
+        pass

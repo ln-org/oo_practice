@@ -26,3 +26,21 @@ class WaterSquare(Square):
             True, as this square is a Water square
         """
         return True
+    
+    def is_den(self) -> bool:
+        """
+        Indicates that this square is not a Den.
+        
+        Returns:
+            False
+        """
+        return False
+    
+    def is_trap(self) -> bool:
+        """
+        Indicates that this square is not a Trap.
+        
+        Returns:
+            False
+        """
+        return False

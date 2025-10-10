@@ -32,9 +32,9 @@ package jungle {
         abstract class Square {
             +Square(Player owner)
             +boolean is_owned_by(Player player)
-            +boolean is_water()
-            +boolean is_den()
-            +boolean is_trap()
+            {abstract} +boolean is_water()
+            {abstract} +boolean is_den()
+            {abstract} +boolean is_trap()
         }
         
         class Den {
