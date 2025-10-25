@@ -3,21 +3,21 @@ package jungle.squares;
 import jungle.Player;
 
 /**
- * Represents a Den square on the Jungle game board.
- * Capturing the opponent's Den results in a victory.
+ * 表示丛林游戏棋盘上的兽穴方格。
+ * 占领对手的兽穴将获得胜利。
  */
 public class Den extends Square {
     /**
-     * Constructs a Den with owner.
+     * 使用拥有者构造一个兽穴。
      * 
-     * @param owner player who owns this Den
+     * @param owner 拥有这个兽穴的玩家
      */
     public Den(Player owner) {
         super(owner);
     }
 
     /**
-     * Indicates this square is a Den.
+     * 指示此方格是兽穴。
      * 
      * @return true
      */

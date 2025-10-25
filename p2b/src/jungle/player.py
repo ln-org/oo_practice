@@ -1,42 +1,41 @@
 """
-Represents a player in a Jungle game.
+表示丛林游戏中的一个玩家。
 
-A player is identified by a player number (0 or 1).
-Each player has a count of remaining pieces and
-can capture the opponent's Den.
+玩家由玩家编号（0或1）标识。
+每个玩家都有剩余棋子的数量，并且可以占领对手的兽穴。
 """
 
 
 class Player:
     """
-    A player in the Jungle game.
+    丛林游戏中的玩家。
     
     Attributes:
-        name: The player's name
-        player_number: Unique identifier (0 or 1)
-        is_opponent_den_captured: Whether opponent's den has been captured
-        num_of_pieces: Number of pieces the player currently has
+        name: 玩家姓名
+        player_number: 唯一标识符（0或1）
+        is_opponent_den_captured: 对手兽穴是否已被占领
+        num_of_pieces: 玩家当前拥有的棋子数量
     """
     
     def __init__(self, name: str, player_number: int):
         """
-        Constructs a Player with a specified name and player number.
+        使用指定的姓名和玩家编号构造一个玩家。
         
         Args:
-            name: Name of player
-            player_number: Unique identifier, should be either 0 or 1
+            name: 玩家姓名
+            player_number: 唯一标识符，应该是0或1
             
         Raises:
-            ValueError: If player_number is not 0 or 1
-            ValueError: If name is None or an empty string
+            ValueError: 如果player_number不是0或1
+            ValueError: 如果name是None或空字符串
         """
-        # check player_number valid
+        # 检查玩家编号有效性
         if player_number not in (0, 1):
             raise ValueError(
                 f"player_number should be 0 or 1, but: {player_number}"
             )
         
-        # check player_name valid
+        # 检查玩家姓名有效性
         if name is None or name == "":
             raise ValueError("Player name cannot be None or empty.")
         
@@ -47,57 +46,57 @@ class Player:
     
     def get_name(self) -> str:
         """
-        Gets player name.
+        获取玩家姓名。
         
         Returns:
-            Player name
+            玩家姓名
         """
         return self._name
     
     def get_player_number(self) -> int:
         """
-        Gets player number.
+        获取玩家编号。
         
         Returns:
-            Player number
+            玩家编号
         """
         return self._player_number
     
     def capture_den(self):
         """
-        Captures the opponent's Den. Sets status of opponent's Den
-        is_opponent_den_captured to True.
+        占领对手的兽穴。将对手兽穴的状态
+        is_opponent_den_captured设置为True。
         """
         self._is_opponent_den_captured = True
     
     def has_captured_den(self) -> bool:
         """
-        Checks if opponent's Den has been captured.
+        检查对手的兽穴是否已被占领。
         
         Returns:
-            True if opponent's Den is captured, False otherwise
+            如果对手的兽穴被占领则返回True，否则返回False
         """
         return self._is_opponent_den_captured
     
     def has_pieces(self) -> bool:
         """
-        Checks if player has pieces.
+        检查玩家是否还有棋子。
         
         Returns:
-            True if player has pieces, False otherwise
+            如果玩家还有棋子则返回True，否则返回False
         """
         return self._num_of_pieces > 0
     
     def gain_one_piece(self):
-        """Increases number of pieces the player has by one."""
+        """将玩家拥有的棋子数量增加一个。"""
         self._num_of_pieces += 1
     
     def lose_one_piece(self):
         """
-        Decreases the number of pieces the player has by one.
+        将玩家拥有的棋子数量减少一个。
         
         Raises:
-            RuntimeError: If the player has no pieces left to lose
+            RuntimeError: 如果玩家没有剩余棋子可以失去
         """
         if self._num_of_pieces > 0:
             self._num_of_pieces -= 1

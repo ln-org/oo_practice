@@ -1,23 +1,23 @@
 package jungle.squares;
 
 /**
- * Represents a Water square on the Jungle game board.
- * A Water square is a special type only rat can enter,
- * some specific pieces can leap.
+ * 表示丛林游戏棋盘上的水方格。
+ * 水方格是一种特殊类型，只有老鼠可以进入，
+ * 某些特定棋子可以跳跃。
  */
 public class WaterSquare extends Square {
 
     /**
-     * Constructs a WaterSquare with no owner.
+     * 构造一个没有拥有者的水方格。
      */
     public WaterSquare() {
         super(null);
     }
 
     /**
-     * Indicates that this square is a Water square.
+     * 指示此方格是水方格。
      * 
-     * @return true, as this square is a Water square
+     * @return true，因为此方格是水方格
      */
     @Override
     public boolean isWater() {

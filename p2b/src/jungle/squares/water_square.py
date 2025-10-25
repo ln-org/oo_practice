@@ -1,7 +1,7 @@
 """
-Represents a Water square on the Jungle game board.
-A Water square is a special type only rat can enter,
-some specific pieces can leap.
+表示丛林游戏棋盘上的水域方格。
+水域方格是一种特殊类型，只有老鼠可以进入，
+某些特定棋子可以跳跃通过。
 """
 
 from .square import Square
@@ -9,27 +9,27 @@ from .square import Square
 
 class WaterSquare(Square):
     """
-    A Water square on the game board.
+    游戏棋盘上的水域方格。
     
-    Only Rats can enter water squares. Tigers and Lions can leap over them.
+    只有老鼠可以进入水域方格。老虎和狮子可以跳跃通过它们。
     """
     
     def __init__(self):
-        """Constructs a WaterSquare with no owner."""
+        """构造一个无拥有者的水域方格。"""
         super().__init__(None)
     
     def is_water(self) -> bool:
         """
-        Indicates that this square is a Water square.
+        指示该方格是水域方格。
         
         Returns:
-            True, as this square is a Water square
+            True，因为该方格是水域方格
         """
         return True
     
     def is_den(self) -> bool:
         """
-        Indicates that this square is not a Den.
+        指示该方格不是兽穴。
         
         Returns:
             False
@@ -38,7 +38,7 @@ class WaterSquare(Square):
     
     def is_trap(self) -> bool:
         """
-        Indicates that this square is not a Trap.
+        指示该方格不是陷阱。
         
         Returns:
             False

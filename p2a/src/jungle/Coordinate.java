@@ -1,9 +1,8 @@
 package jungle;
 
 /**
- * Represents a coordinate on the Jungle game board.
- * Each coordinate consists of a row and column index, which are
- * used to locate squares on the game board.
+ * 表示丛林游戏棋盘上的一个坐标。
+ * 每个坐标由行和列索引组成，用于在游戏棋盘上定位方格。
  */
 public class Coordinate {
     private static final int HASH_MULTIPLIER = 10;
@@ -12,10 +11,10 @@ public class Coordinate {
     private int colIndex;
 
     /**
-     * Constructs a Coordinate with the row and column indexes.
+     * 使用行和列索引构造一个坐标。
      * 
-     * @param row row index of the coordinate
-     * @param col column index of the coordinate
+     * @param row 坐标的行索引
+     * @param col 坐标的列索引
      */
     public Coordinate(int row, int col) {
         this.rowIndex = row;
@@ -23,31 +22,30 @@ public class Coordinate {
     }
 
     /**
-     * Gets the row index of coordinate.
+     * 获取坐标的行索引。
      * 
-     * @return row index
+     * @return 行索引
      */
     public int row() {
         return rowIndex;
     }
 
     /**
-     * Gets the column index of coordinate.
+     * 获取坐标的列索引。
      * 
-     * @return column index
+     * @return 列索引
      */
     public int col() {
         return colIndex;
     }
 
     /**
-     * Checks if this coordinate is equal to another object.
-     * Two coordinates are considered equal if they have same
-     * row and column index.
+     * 检查此坐标是否与另一个对象相等。
+     * 如果两个坐标具有相同的行和列索引，则认为它们相等。
      * 
-     * @param obj the object to compare with
-     * @return true if obj is a Coordinate, and with same row
-     *         and column indexes, false otherwise
+     * @param obj 要比较的对象
+     * @return 如果obj是一个坐标，且具有相同的行和列索引，则返回true，
+     *         否则返回false
      */
     @Override
     public boolean equals(Object obj) {
@@ -68,10 +66,9 @@ public class Coordinate {
     }
 
     /**
-     * Generates hash code for this coordinate based on its row
-     * and column indexes.
+     * 根据此坐标的行和列索引生成哈希码。
      * 
-     * @return hash code for this coordinate
+     * @return 此坐标的哈希码
      */
     @Override
     public int hashCode() {
@@ -79,9 +76,9 @@ public class Coordinate {
     }
 
     /**
-     * Returns a string representation of this coordinate.
+     * 返回此坐标的字符串表示。
      * 
-     * @return a string in the format "row: <row>, col: <col>".
+     * @return 格式为"row: <row>, col: <col>"的字符串。
      */
     @Override
     public String toString() {

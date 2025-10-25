@@ -1,24 +1,22 @@
 """
-Represents an exception thrown when illegal move is attempted in Jungle.
-This exception extends RuntimeError and is used to handle
-invalid moves, such as moving to an invalid square, attempting an action
-that is not allowed by the game rules.
+表示在丛林游戏中尝试进行非法移动时抛出的异常。
+此异常继承了RuntimeError，用于处理无效的移动，
+例如移动到无效的方格、尝试执行游戏规则不允许的动作。
 """
 
 
 class IllegalMoveException(RuntimeError):
     """
-    Exception for illegal moves in Jungle game.
+    丛林游戏中非法移动的异常。
     
-    This exception is raised when a player attempts to make a move
-    that violates the game rules.
+    当玩家尝试进行违反游戏规则的移动时抛出此异常。
     """
     
     def __init__(self, message: str):
         """
-        Constructs an IllegalMoveException with a specified detail message.
+        使用指定的详细信息构造一个IllegalMoveException。
         
         Args:
-            message: Message describing the reason for the exception
+            message: 描述异常原因的信息
         """
         super().__init__(message)

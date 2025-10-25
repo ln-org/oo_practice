@@ -1,6 +1,6 @@
 """
-Represents a Den square on the Jungle game board.
-Capturing the opponent's Den results in a victory.
+表示丛林游戏棋盘上的兽穴方格。
+占领对手的兽穴即可获得胜利。
 """
 
 from typing import TYPE_CHECKING
@@ -12,23 +12,23 @@ if TYPE_CHECKING:
 
 class Den(Square):
     """
-    A Den square on the game board.
+    游戏棋盘上的兽穴方格。
     
-    Each player has a Den. Capturing the opponent's Den wins the game.
+    每个玩家都有一个兽穴。占领对手的兽穴即可获胜。
     """
     
     def __init__(self, owner: 'Player'):
         """
-        Constructs a Den with owner.
+        构造一个有拥有者的兽穴。
         
         Args:
-            owner: Player who owns this Den
+            owner: 拥有该兽穴的玩家
         """
         super().__init__(owner)
     
     def is_den(self) -> bool:
         """
-        Indicates this square is a Den.
+        指示该方格是兽穴。
         
         Returns:
             True
@@ -37,7 +37,7 @@ class Den(Square):
     
     def is_water(self) -> bool:
         """
-        Indicates that this square is not a Water square.
+        指示该方格不是水域方格。
         
         Returns:
             False
@@ -46,7 +46,7 @@ class Den(Square):
     
     def is_trap(self) -> bool:
         """
-        Indicates that this square is not a Trap.
+        指示该方格不是陷阱。
         
         Returns:
             False

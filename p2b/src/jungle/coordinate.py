@@ -1,62 +1,60 @@
 """
-Represents a coordinate on the Jungle game board.
-Each coordinate consists of a row and column index, which are
-used to locate squares on the game board.
+表示丛林游戏棋盘上的一个坐标。
+每个坐标由行和列索引组成，用于在游戏棋盘上定位方格。
 """
 
 
 class Coordinate:
     """
-    A coordinate on the game board.
+    游戏棋盘上的坐标。
     
     Attributes:
-        row_index: The row index of the coordinate
-        col_index: The column index of the coordinate
+        row_index: 坐标的行索引
+        col_index: 坐标的列索引
     """
     
     _HASH_MULTIPLIER = 10
     
     def __init__(self, row: int, col: int):
         """
-        Constructs a Coordinate with the row and column indexes.
+        使用行和列索引构造一个坐标。
         
         Args:
-            row: Row index of the coordinate
-            col: Column index of the coordinate
+            row: 坐标的行索引
+            col: 坐标的列索引
         """
         self._row_index = row
         self._col_index = col
     
     def row(self) -> int:
         """
-        Gets the row index of coordinate.
+        获取坐标的行索引。
         
         Returns:
-            Row index
+            行索引
         """
         return self._row_index
     
     def col(self) -> int:
         """
-        Gets the column index of coordinate.
+        获取坐标的列索引。
         
         Returns:
-            Column index
+            列索引
         """
         return self._col_index
     
     def __eq__(self, other) -> bool:
         """
-        Checks if this coordinate is equal to another object.
-        Two coordinates are considered equal if they have same
-        row and column index.
+        检查此坐标是否与另一个对象相等。
+        如果两个坐标具有相同的行和列索引，则认为它们相等。
         
         Args:
-            other: The object to compare with
+            other: 要比较的对象
             
         Returns:
-            True if other is a Coordinate with same row and column indexes,
-            False otherwise
+            如果other是具有相同行和列索引的坐标则返回True，
+            否则返回False
         """
         if self is other:
             return True
@@ -68,19 +66,18 @@ class Coordinate:
     
     def __hash__(self) -> int:
         """
-        Generates hash code for this coordinate based on its row
-        and column indexes.
+        根据此坐标的行和列索引生成哈希码。
         
         Returns:
-            Hash code for this coordinate
+            此坐标的哈希码
         """
         return self.row() * self._HASH_MULTIPLIER + self.col()
     
     def __str__(self) -> str:
         """
-        Returns a string representation of this coordinate.
+        返回此坐标的字符串表示。
         
         Returns:
-            A string in the format "row: <row>, col: <col>"
+            格式为"row: <row>, col: <col>"的字符串
         """
         return f"row: {self.row()}, col: {self.col()}"

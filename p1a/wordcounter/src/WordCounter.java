@@ -4,33 +4,32 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 /**
- * This WordCounter program implements an application that searches for
- * one or more specified words in a given text file and counts how many
- * times each word appears.
+ * 这个WordCounter程序实现了一个应用，用于在给定的文本文件中搜索
+ * 一个或多个指定的单词，并统计每个单词出现的次数。
  * 
- * The results are displayed either as a summary for a single word or
- * in a formatted table for multiple words.
+ * 结果要么以单个单词的摘要形式显示，要么以多个单词的
+ * 格式化表格形式显示。
  */
 public class WordCounter {
     /**
-     * Main entry point for the program.
+     * 程序的主要入口点。
      * 
-     * This method will print the count of each word found or an error
-     * message if the file cannot be found.
+     * 此方法将打印找到的每个单词的计数，或在无法找到文件时
+     * 打印错误信息。
      * 
-     * @param args The command-line arguments ( required at least two).
-     *             The first should be file name, followed by one or more
-     *             words to search for in the file.
+     * @param args 命令行参数（至少需要两个）。
+     *             第一个应该是文件名，后面跟着一个或多个
+     *             要在文件中搜索的单词。
      */
     public static void main(String[] args) {
 
-        // Check if arguments are missing and display usage instructions
+        // 检查是否缺少参数并显示使用说明
         if (args.length < 2) {
             System.out.println("Usage: java WordCounter <filename> <searchTerm>");
             return;
         }
 
-        // Check if searching worlds are valid
+        // 检查搜索的单词是否有效
         for (int i = 1; i < args.length; i++) {
             if (!args[i].matches("[A-Za-z0-9_]+")) {
                 System.out.println("Invalid input: "
@@ -51,18 +50,17 @@ public class WordCounter {
     }
 
     /**
-     * Counts the occurrences of the specified words in the a given file.
+     * 统计指定单词在给定文件中的出现次数。
      *
-     * This method reads a file, and then counts how many times each specified word
-     * appears in the file. A word is defined as a contiguous sequence of characters
-     * from the ranges A–Z, a–z, 0–9, and the underscore (_) character.
-     * The counts for each word are stored in an integer array.
+     * 此方法读取一个文件，然后统计每个指定单词在文件中出现的次数。
+     * 单词被定义为由A-Z、a-z、0-9范围内的字符和下划线（_）字符
+     * 组成的连续字符序列。每个单词的计数存储在一个整数数组中。
      *
-     * @param file  The file to search.
-     * @param words An array of words to search for in the file.
-     * @return  An array of integers representing the number of occurrences
-     *          for each corresponding word in the 'words' array.
-     * @throws  FileNotFoundException If the specified file cannot be found.
+     * @param file  要搜索的文件。
+     * @param words 要在文件中搜索的单词数组。
+     * @return  一个整数数组，表示'words'数组中每个对应单词的
+     *          出现次数。
+     * @throws  FileNotFoundException 如果无法找到指定的文件。
      */
     public static int[] countWords(File file, String[] words) throws FileNotFoundException {
         try (Scanner sc = new Scanner(file)) {

@@ -4,11 +4,10 @@ import jungle.Player;
 import jungle.squares.Square;
 
 /**
- * Represents a piece in Jungle game.
- * Each piece has an owner, occupies a board square, has a rank from
- * 1 to 8, which determines its strength (could impact by square),
- * some of the pieces have special abilities, such as swimming or
- * leaping.
+ * 表示丛林游戏中的一个棋子。
+ * 每个棋子都有一个拥有者，占据一个棋盘方格，具有1到8的等级，
+ * 等级决定了它的力量（可能受到方格影响），
+ * 一些棋子具有特殊能力，如游泳或跳跃。
  */
 public class Piece {
     private Player owner = null;
@@ -16,11 +15,11 @@ public class Piece {
     private int rank = 0;
 
     /**
-     * Constructs a Piece with owner, initial square, and rank.
+     * 使用拥有者、初始方格和等级构造一个棋子。
      * 
-     * @param owner     player who owns this piece
-     * @param square    initial square occupied by this piece
-     * @param rank      rank of this piece
+     * @param owner     拥有这个棋子的玩家
+     * @param square    这个棋子占据的初始方格
+     * @param rank      这个棋子的等级
      */
     public Piece(Player owner, Square square, int rank) {
         this.owner = owner;
@@ -30,24 +29,24 @@ public class Piece {
     }
 
     /**
-     * Checks if this piece is owned by the specified player.
+     * 检查此棋子是否属于指定玩家。
      * 
-     * @param player player to check ownership against
-     * @return  true if this piece is owned by the specified player,
-     *          false otherwise
+     * @param player 要检查所有权的玩家
+     * @return  如果此棋子属于指定玩家则返回true，
+     *          否则返回false
      */
     public boolean isOwnedBy(Player player) {
         return player.equals(this.owner);
     }
 
     /**
-     * Gets the strength of this piece.
-     * Nomally equal to rank, but reduce to 0 if in opponent's trap.
+     * 获取此棋子的力量。
+     * 通常等于等级，但如果在对手的陷阱中则降为0。
      * 
-     * @return strength of piece, 0 when in an opponent's Trap
+     * @return 棋子的力量，在对手陷阱中时为0
      */
     public int getStrength() {
-        // if in traps
+        // 如果在陷阱中
         if (
             this.square.isTrap()
             && !this.square.isOwnedBy(this.owner)
@@ -59,37 +58,37 @@ public class Piece {
     }
 
     /**
-     * Indicates if this piece can swim.
+     * 指示此棋子是否可以游泳。
      * 
-     * @return true if piece can swim, false otherwise
+     * @return 如果棋子可以游泳则返回true，否则返回false
      */
     public boolean canSwim() {
         return false;
     }
 
     /**
-     * Indicates if this piece can leap horizontally over water.
+     * 指示此棋子是否可以水平跳跃越过水。
      * 
-     * @return true if piece can leap horizontally, false otherwise
+     * @return 如果棋子可以水平跳跃则返回true，否则返回false
      */
     public boolean canLeapHorizontally() {
         return false;
     }
 
     /**
-     * Indicates if this piece can leap vertically over water.
+     * 指示此棋子是否可以垂直跳跃越过水。
      * 
-     * @return true if piece can leap vertically, false otherwise
+     * @return 如果棋子可以垂直跳跃则返回true，否则返回false
      */
     public boolean canLeapVertically() {
         return false;
     }
 
     /**
-     * Moves piece to a new square.
-     * If moves into an opponent's Den, it captures the Den.
+     * 将棋子移动到新方格。
+     * 如果移动到对手的兽穴，则占领该兽穴。
      * 
-     * @param toSquare square to move
+     * @param toSquare 要移动到的方格
      */
     public void move(Square toSquare) {
         this.square = toSquare;
@@ -103,19 +102,19 @@ public class Piece {
     }
 
     /**
-     * Checks if this piece can defeat a target piece.
-     * Piece can defeat another if it has higher or equal strength,
-     * or if it is a Rat attacking an Elephant.
+     * 检查此棋子是否可以击败目标棋子。
+     * 如果棋子有更高或相等的力量，或者是老鼠攻击大象，
+     * 棋子就可以击败另一个棋子。
      * 
-     * @param target the piece to check defeat against
-     * @return true if piece can defeat target, false otherwise
+     * @param target 要检查击败的棋子
+     * @return 如果棋子可以击败目标则返回true，否则返回false
      */
     public boolean canDefeat(Piece target) {
         if (
             !target.isOwnedBy(this.owner)
             && (
                 this.getStrength() >= target.getStrength()
-                || this.rank == 1 && target.rank ==  8 // Rat 1 atk Elephant 8
+                || this.rank == 1 && target.rank ==  8 // 老鼠1攻击大象8
             )
         ) {
             return true;
@@ -125,9 +124,8 @@ public class Piece {
     }
 
     /**
-     * Captures this piece by setting its square to null, removing
-     * its ownership, and decreasing the owner's piece count.
-     * 
+     * 通过将其方格设置为null、移除其所有权并减少拥有者的棋子数量
+     * 来捕获此棋子。
      */
     public void beCaptured() {
         this.square = null;

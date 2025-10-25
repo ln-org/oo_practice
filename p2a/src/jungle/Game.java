@@ -15,40 +15,39 @@ import jungle.squares.Trap;
 import jungle.squares.WaterSquare;
 
 /**
- * Represents main game logic and state for Jungle game.
- * Manages the game board, players, pieces, turns, and game rules.
+ * 表示丛林游戏的主要游戏逻辑和状态。
+ * 管理游戏棋盘、玩家、棋子、回合和游戏规则。
  */
 public class Game {
-    /** Board height (rows). */
+    /** 棋盘高度（行数）。 */
     public static final int HEIGHT = 9;
 
-    /** Board width (columns). */
+    /** 棋盘宽度（列数）。 */
     public static final int WIDTH = 7;
 
-    /** Rows with water squares. */
+    /** 有水方格的行。 */
     public static final int[] WATER_ROWS = {3, 4, 5};
 
-    /** Columns with water squares. */
+    /** 有水方格的列。 */
     public static final int[] WATER_COLS = {1, 2, 4, 5};
 
-    /** Column index of the Dens. */
+    /** 兽穴的列索引。 */
     public static final int DEN_COL = 3;
 
 
     private int currentTurn;
     private Player p0, p1;
     private Player[] players = new Player[2];
-    private Square[][] squares = new Square[HEIGHT][WIDTH]; // game board
+    private Square[][] squares = new Square[HEIGHT][WIDTH]; // 游戏棋盘
     private HashMap<Square, Piece> squareToPiece
         = new HashMap<Square, Piece>();
 
     /**
-     * Constructs a Game instance with two players.
-     * Initializes game board with board squares and sets the turn to
-     * the first player.
+     * 使用两个玩家构造一个游戏实例。
+     * 用棋盘方格初始化游戏棋盘，并将回合设置为第一个玩家。
      * 
-     * @param p0 first player
-     * @param p1 second player
+     * @param p0 第一个玩家
+     * @param p1 第二个玩家
      */
     public Game(Player p0, Player p1) {
         this.p0 = p0;
@@ -61,36 +60,34 @@ public class Game {
     }
 
     /**
-     * Initializes the game board by setting each square type (Plain,
-     * Water, Den, Trap) at their respective positions.
-     * The board is a 9x7 grid where certain squares are designated as
-     * water squares, and each player's Den and Trap squares are placed
-     * in specific locations.
+     * 通过在相应位置设置每种方格类型（普通、水、兽穴、陷阱）来初始化游戏棋盘。
+     * 棋盘是一个9x7的网格，其中某些方格被指定为水方格，
+     * 每个玩家的兽穴和陷阱方格被放置在特定位置。
      */
     private void initializeBoardSquares() {
-        // set all squares to PlainSquare initially
+        // 初始时将所有方格设置为普通方格
         for (int row = 0; row < HEIGHT; row++) {
             for (int col = 0; col < WIDTH; col++) {
                 squares[row][col] = new PlainSquare();
             }
         }
 
-        // set WaterSquares based on predefined rows and columns
+        // 基于预定义的行和列设置水方格
         for (int row : WATER_ROWS) {
             for (int col : WATER_COLS) {
                 squares[row][col] = new WaterSquare();
             }
         }
 
-        // Set dens and traps for each player
-        // set p0 den and traps
+        // 为每个玩家设置兽穴和陷阱
+        // 设置p0的兽穴和陷阱
         int p0DenRow = 0;
         squares[p0DenRow][DEN_COL] = new Den(p0);
         squares[p0DenRow][DEN_COL - 1] = new Trap(p0);
         squares[p0DenRow][DEN_COL + 1] = new Trap(p0);
         squares[p0DenRow + 1][DEN_COL] = new Trap(p0);
 
-        // set p1 den and traps
+        // 设置p1的兽穴和陷阱
         int p1DenRow = 8;
         squares[p1DenRow][DEN_COL] = new Den(p1);
         squares[p1DenRow][DEN_COL - 1] = new Trap(p1);
@@ -99,13 +96,12 @@ public class Game {
     }
 
     /**
-     * Adds the starting pieces for both players according to their
-     * initial positions and ranks.
+     * 根据初始位置和等级为两个玩家添加起始棋子。
      */
     public void addStartingPieces() {
         int[][] initialPieceConfigs = {
-                // {row, col, rank, playerNumber}
-                // play 0
+                // {行, 列, 等级, 玩家编号}
+                // 玩家0
                 {2, 0, 1, 0},
                 {1, 5, 2, 0},
                 {1, 1, 3, 0},
@@ -114,7 +110,7 @@ public class Game {
                 {0, 6, 6, 0},
                 {0, 0, 7, 0},
                 {2, 6, 8, 0},
-                // play 1
+                // 玩家1
                 {6, 6, 1, 1},
                 {7, 1, 2, 1},
                 {7, 5, 3, 1},
@@ -136,12 +132,12 @@ public class Game {
     }
 
     /**
-     * Adds a piece a given position on the board.
+     * 在棋盘上的给定位置添加一个棋子。
      * 
-     * @param row          row coordinate of the square on game board.
-     * @param col          column coordinate of the square on game board.
-     * @param rank         rank of the piece
-     * @param playerNumber player number who owns the piece
+     * @param row          游戏棋盘上方格的行坐标。
+     * @param col          游戏棋盘上方格的列坐标。
+     * @param rank         棋子的等级
+     * @param playerNumber 拥有该棋子的玩家编号
      */
     public void addPiece(int row, int col, int rank, int playerNumber) {
         Player player = getPlayer(playerNumber);
@@ -158,16 +154,16 @@ public class Game {
             piece = new Piece(player, square, rank);
         }
 
-        // put in to squareToPiece
+        // 放入squareToPiece映射中
         squareToPiece.put(getSquare(row, col), piece);
     }
 
     /**
-     * Get the piece at a specified position on the board.
+     * 获取棋盘上指定位置的棋子。
      * 
-     * @param row row coordinate on game board.
-     * @param col column coordinate on game board.
-     * @return piece at given coordinate, or null if none exists
+     * @param row 游戏棋盘上的行坐标。
+     * @param col 游戏棋盘上的列坐标。
+     * @return 给定坐标处的棋子，如果不存在则返回null
      */
     public Piece getPiece(int row, int col) {
         Square square = getSquare(row, col);
@@ -175,17 +171,16 @@ public class Game {
     }
 
     /**
-     * Moves a piece from one position to another.
+     * 将棋子从一个位置移动到另一个位置。
      * 
-     * @param fromRow row coordinate of piece's current position
-     * @param fromCol column coordinate of piece's current position
-     * @param toRow   row coordinate of the destination position
-     * @param toCol   column coordinate of the destination position
-     * @throws IllegalMoveException if the destination coordinates is not
-     *                              legal for the piece
+     * @param fromRow 棋子当前位置的行坐标
+     * @param fromCol 棋子当前位置的列坐标
+     * @param toRow   目标位置的行坐标
+     * @param toCol   目标位置的列坐标
+     * @throws IllegalMoveException 如果目标坐标对该棋子不合法
      */
     public void move(int fromRow, int fromCol, int toRow, int toCol) {
-        // check if destination valid
+        // 检查目标位置是否有效
         if (
             !getLegalMoves(fromRow, fromCol)
                 .contains(new Coordinate(toRow, toCol))
@@ -204,25 +199,25 @@ public class Game {
             targetPiece.beCaptured();
         }
 
-        // move
+        // 移动棋子
         piece.move(getSquare(toRow, toCol));
 
-        // update square to piece HashMap
+        // 更新方格到棋子的映射
         squareToPiece.remove(sourceSquare, piece);
         squareToPiece.put(targetSquare, piece);
-        // go to the other player's turn
+        // 轮到另一个玩家
         nextTurn();
     }
 
     /**
-     * Get player based on player number.
+     * 根据玩家编号获取玩家。
      * 
-     * @param playerNumber player number (0 or 1)
-     * @return player with the specified player number
-     * @throws IllegalArgumentException if the player number is invalid
+     * @param playerNumber 玩家编号（0或1）
+     * @return 具有指定玩家编号的玩家
+     * @throws IllegalArgumentException 如果玩家编号无效
      */
     public Player getPlayer(int playerNumber) {
-        // check playNumber valid, valid number can succed to create a player
+        // 检查玩家编号有效性，有效编号能成功创建玩家
         try {
             Player player = new Player("checkPlayerNumber", playerNumber);
         } catch (IllegalArgumentException e) {
@@ -233,51 +228,51 @@ public class Game {
     }
 
     /**
-     * Determines the winner of the game.
-     * A player wins if they capture the opponent's Den or if the
-     * opponent has no pieces left.
+     * 确定游戏的获胜者。
+     * 如果玩家占领了对手的兽穴或者对手没有剩余棋子，
+     * 该玩家就获胜。
      * 
-     * @return the winning player, or null if there is no winner yet
+     * @return 获胜的玩家，如果还没有获胜者则返回null
      */
     public Player getWinner() {
         if (
-            p0.hasCapturedDen() // p0 captures p1's Den
-            || !p1.hasPieces()  // or p1 has no piece remaining
+            p0.hasCapturedDen() // p0占领了p1的兽穴
+            || !p1.hasPieces()  // 或者p1没有剩余棋子
         ) {
-            return p0;          // p0 win
+            return p0;          // p0获胜
         }
 
         if (
-            p1.hasCapturedDen() // p1 captures p1's Den
-            || !p0.hasPieces()  // or p0 has no piece remaining
+            p1.hasCapturedDen() // p1占领了p0的兽穴
+            || !p0.hasPieces()  // 或者p0没有剩余棋子
         ) {
-            return p1;          // p1 win
+            return p1;          // p1获胜
         }
 
         return null;
     }
 
     /**
-     * Checks if the game is over.
+     * 检查游戏是否结束。
      * 
-     * @return true if there is a winner, false otherwise
+     * @return 如果有获胜者则返回true，否则返回false
      */
     public boolean isGameOver() {
         return getWinner() != null;
     }
 
     /**
-     * Get the square at a specified coordinate on the game board.
+     * 获取游戏棋盘上指定坐标的方格。
      * 
-     * @param row row coordinate on board.
-     * @param col col coordinate on board.
-     * @return square at the specified coordinate
-     * @throws IndexOutOfBoundsException if coordinates are outside game board
+     * @param row 棋盘上的行坐标。
+     * @param col 棋盘上的列坐标。
+     * @return 指定坐标处的方格
+     * @throws IndexOutOfBoundsException 如果坐标超出游戏棋盘范围
      */
     public Square getSquare(int row, int col) {
         if (
-            (row < 0 || row > HEIGHT - 1)   // exceed height
-            || (col < 0 || col > WIDTH - 1) // exceed width
+            (row < 0 || row > HEIGHT - 1)   // 超出高度
+            || (col < 0 || col > WIDTH - 1) // 超出宽度
         ) {
             throw new IndexOutOfBoundsException(
                 String.format("Coordinate exceed board bounds: (%d, %d)", row, col)
@@ -288,11 +283,11 @@ public class Game {
     }
 
     /**
-     * Get legal moves for a piece at a specified coordinate.
+     * 获取指定坐标处棋子的合法移动。
      * 
-     * @param row current row coordinate
-     * @param col current col coordinate
-     * @return a list of legal coordinates where the piece can move
+     * @param row 当前行坐标
+     * @param col 当前列坐标
+     * @return 棋子可以移动的合法坐标列表
      */
     public List<Coordinate> getLegalMoves(int row, int col) {
         List<Coordinate> coordinates = new ArrayList<Coordinate>();
@@ -301,58 +296,57 @@ public class Game {
         Piece selectedPiece = getPiece(row, col);
 
         if (
-            selectedPiece == null   // no piece at this coordinate
-            // or piece is not owner by play can move this turn
+            selectedPiece == null   // 此坐标处没有棋子
+            // 或者棋子不属于本回合可移动的玩家
             || !selectedPiece.isOwnedBy(thisTurnPlayer)
-            || isGameOver()         // or game is over
+            || isGameOver()         // 或者游戏已结束
         ) {
-            return coordinates;       // return empty list
+            return coordinates;       // 返回空列表
         }
 
-        // 4 potential move direction
+        // 4个潜在的移动方向
         Coordinate[] directions = {
-            new Coordinate(-1, 0),  // upward
-            new Coordinate(1, 0),  // downward
-            new Coordinate(0, -1),  // leftward
-            new Coordinate(0, 1),  // rightward
+            new Coordinate(-1, 0),  // 向上
+            new Coordinate(1, 0),  // 向下
+            new Coordinate(0, -1),  // 向左
+            new Coordinate(0, 1),  // 向右
         };
 
-        // Explore squrare can move to in each of 4 directions
+        // 探索在4个方向中每个方向可以移动到的方格
         for (Coordinate direction : directions) {
             Coordinate coordinate = exploreDirection(row,
                                                      col,
                                                      direction.row(),
                                                      direction.col());
 
-            // if found a valid square, add to list
+            // 如果找到有效方格，添加到列表中
             if (coordinate != null) {
                 coordinates.add(coordinate);
             }
         }
 
-        // return all valid square in list
+        // 返回列表中所有有效方格
         return coordinates;
     }
 
     /**
-     * Explores a specified direction from a starting position to find if
-     * there is a square can move to.
-     * Handles cases where a piece can move directly to an adjacent square,
-     * swim through water, or leap over water if the piece has that ability.
+     * 从起始位置探索指定方向，查找是否有可以移动到的方格。
+     * 处理棋子可以直接移动到相邻方格、游过水或跳跃越过水
+     * （如果棋子具有该能力）的情况。
      * 
-     * @param row           starting row coordinate
-     * @param col           starting column coordinate
-     * @param rowDirection  row direction (e.g., -1 for up, 1 for down)
-     * @param colDirection  column direction (e.g., -1 for left, 1 for right)
-     * @return target coordinate if the move is valid, or null if not allowed
-     * @throws IllegalArgumentException if the direction is not valid
+     * @param row           起始行坐标
+     * @param col           起始列坐标
+     * @param rowDirection  行方向（例如，-1表示向上，1表示向下）
+     * @param colDirection  列方向（例如，-1表示向左，1表示向右）
+     * @return 如果移动有效则返回目标坐标，如果不允许则返回null
+     * @throws IllegalArgumentException 如果方向无效
      */
     private Coordinate exploreDirection(int row,
                                         int col,
                                         int rowDirection,
                                         int colDirection) {
 
-        // explore (move) direction only can be horizontally or vertically
+        // 探索（移动）方向只能是水平或垂直
         if (
             !((rowDirection == -1 || rowDirection == 1)  && colDirection == 0)
             && !(rowDirection == 0 && (colDirection == -1 || colDirection == 1))
@@ -364,7 +358,7 @@ public class Game {
         }
 
         try {
-            // currently explore squre
+            // 当前探索的方格
             Square exploreSqure = getSquare(row + rowDirection,
                                             col + colDirection);
 
@@ -373,30 +367,30 @@ public class Game {
                                               col + colDirection);
 
             if (
-                // explore directly adjacent square can move to
+                // 探索可以直接移动到的相邻方格
                 (
-                    // squre is not water or piece can swim,
+                    // 方格不是水或棋子可以游泳
                     !exploreSqure.isWater() || selectedPiece.canSwim()
                 ) && (
-                    // has a piece, but can defeat
+                    // 有棋子，但可以击败
                     distinationPiece != null
                     && selectedPiece.canDefeat(distinationPiece)
-                    // or doesn't have a piece
+                    // 或者没有棋子
                     || distinationPiece == null
                 )
             ) {
                 return new Coordinate(row + rowDirection, col + colDirection);
             } else if (
-                // explore square can jump to
+                // 探索可以跳跃到的方格
                 (
-                    // adjacent square is water, and with no piece
+                    // 相邻方格是水，且没有棋子
                     exploreSqure.isWater() && distinationPiece == null
                 ) && (
-                    // selected piece can leap vertically
-                    // and currentlly explore vertical direction
+                    // 选中的棋子可以垂直跳跃
+                    // 且当前探索垂直方向
                     selectedPiece.canLeapVertically() && rowDirection != 0
-                    // or selected piece can leap vertically
-                    // and currentlly explore horizontal direction
+                    // 或者选中的棋子可以水平跳跃
+                    // 且当前探索水平方向
                     || selectedPiece.canLeapHorizontally() && colDirection != 0
                 )
             ) {
@@ -407,8 +401,8 @@ public class Game {
                     distinationPiece = getPiece(row + rowDirection * step,
                                                 col + colDirection * step);
 
-                    // break explore, can't jump if piece occupies
-                    // intervening water
+                    // 停止探索，如果棋子占据了
+                    // 中间的水方格则无法跳跃
                     if (
                         exploreSqure.isWater()
                         && distinationPiece != null
@@ -416,7 +410,7 @@ public class Game {
                         break;
                     }
 
-                    // reture squre is not water, no piece or can be defeated
+                    // 返回方格不是水，没有棋子或可以被击败
                     if (
                         !exploreSqure.isWater()
                         && (
@@ -428,7 +422,7 @@ public class Game {
                                               col + colDirection * step);
                     }
 
-                    // explore next square
+                    // 探索下一个方格
                     step++;
                 }
             }

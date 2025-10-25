@@ -1,6 +1,6 @@
 """
-Represents a Rat piece in Jungle game.
-Rat is the weakest piece (rank 1) but has ability to swim.
+表示丛林游戏中的老鼠棋子。
+老鼠是最弱的棋子（等级1）但具有游泳能力。
 """
 
 from typing import TYPE_CHECKING
@@ -13,25 +13,25 @@ if TYPE_CHECKING:
 
 class Rat(Piece):
     """
-    A Rat piece in the Jungle game.
+    丛林游戏中的老鼠棋子。
     
-    The Rat has rank 1 and can swim through water squares.
+    老鼠的等级为1，可以游过水方格。
     """
     
     def __init__(self, owner: 'Player', square: 'Square'):
         """
-        Constructs a Rat with owner and square.
-        Rat has a rank of 1.
+        使用拥有者和方格构造一个老鼠。
+        老鼠的等级为1。
         
         Args:
-            owner: Player who owns this Rat
-            square: Square occupied by this Rat
+            owner: 拥有这个老鼠的玩家
+            square: 这个老鼠占据的方格
         """
         super().__init__(owner, square, 1)
     
     def can_swim(self) -> bool:
         """
-        Indicates that the Rat can swim.
+        指示老鼠可以游泳。
         
         Returns:
             True

@@ -4,24 +4,24 @@ import jungle.Player;
 import jungle.squares.Square;
 
 /**
- * Represents a Lion piece in the Jungle game.
- * Lion can leap both horizontally and vertically over water squares.
+ * 表示丛林游戏中的狮子棋子。
+ * 狮子可以水平和垂直跳跃越过水方格。
  */
 public class Lion extends Piece {
 
     /**
-     * Constructs a Lion with the owner and square.
-     * The Lion has a rank of 7.
+     * 使用拥有者和方格构造一个狮子。
+     * 狮子的等级为7。
      * 
-     * @param owner     the player who owns this Lion
-     * @param square    square occupied by this Lion
+     * @param owner     拥有这个狮子的玩家
+     * @param square    这个狮子占据的方格
      */
     public Lion(Player owner, Square square) {
         super(owner, square, 7);
     }
 
     /**
-     * Indicates Lion can leap horizontally.
+     * 指示狮子可以水平跳跃。
      * 
      * @return true
      */
@@ -31,7 +31,7 @@ public class Lion extends Piece {
     }
 
     /**
-     * Indicates Lion can leap vertically .
+     * 指示狮子可以垂直跳跃。
      * 
      * @return true
      */

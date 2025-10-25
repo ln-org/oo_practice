@@ -1,17 +1,16 @@
 package jungle;
 
 /**
- * Represents an exception thrown when illegal move is attempted in Jungle.
- * This exception extends {@code RuntimeException} and is used to handle
- * invalid moves, such as moving to an invalid square, attempting an action
- * that is not allowed by the game rules.
+ * 表示在丛林游戏中尝试进行非法移动时抛出的异常。
+ * 此异常继承了{@code RuntimeException}，用于处理无效的移动，
+ * 例如移动到无效的方格、尝试执行游戏规则不允许的动作。
  */
 public class IllegalMoveException extends RuntimeException {
 
     /**
-     * Constructs an IllegalMoveException with a specified detail message.
+     * 使用指定的详细信息构造一个IllegalMoveException。
      * 
-     * @param message message describing the reason for the exception
+     * @param message 描述异常原因的信息
      */
     public IllegalMoveException(String message) {
         super(message);

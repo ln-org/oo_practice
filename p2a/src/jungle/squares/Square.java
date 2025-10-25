@@ -3,57 +3,57 @@ package jungle.squares;
 import jungle.Player;
 
 /**
- * Represents a square of the 7 x 9 Jungle game board.
- * Each square can have an owner, and may represent a specific type such as
- * a Den, Trap, Water, or Plain square.
+ * 表示7x9丛林游戏棋盘的一个方格。
+ * 每个方格可以有一个拥有者，并且可以表示特定类型，
+ * 如兽穴、陷阱、水或普通方格。
  */
 public abstract class Square {
     private Player owner;
 
     /**
-     * Constructs a Square with owner.
+     * 使用拥有者构造一个方格。
      * 
-     * @param owner player who owns this square, can be null if no owner
+     * @param owner 拥有此方格的玩家，如果没有拥有者可以为null
      */
     public Square(Player owner) {
         this.owner = owner;
     }
 
     /**
-     * Checks if this square is owned by the specified player.
+     * 检查此方格是否属于指定玩家。
      * 
-     * @param player player to check ownership against
-     * @return true if player owns this square, false otherwise
+     * @param player 要检查所有权的玩家
+     * @return 如果玩家拥有此方格则返回true，否则返回false
      */
     public boolean isOwnedBy(Player player) {
         return player.equals(this.owner);
     }
 
     /**
-     * Indicates if this square is a Water square.
-     * By default, returns false, is overridden by {@code WaterSquare}.
+     * 指示此方格是否为水方格。
+     * 默认返回false，由{@code WaterSquare}重写。
      * 
-     * @return true if this square is a Water square, false otherwise
+     * @return 如果此方格是水方格则返回true，否则返回false
      */
     public boolean isWater() {
         return false;
     }
 
     /**
-     * Indicates if this square is a Den.
-     * By default, returns false, is overridden by by {@code Den}.
+     * 指示此方格是否为兽穴。
+     * 默认返回false，由{@code Den}重写。
      *
-     * @return true if this square is a Den, false otherwise
+     * @return 如果此方格是兽穴则返回true，否则返回false
      */
     public boolean isDen() {
         return false;
     }
 
     /**
-     * Indicates if this square is a Trap.
-     * By default, returns false, is overridden by {@code Trap}.
+     * 指示此方格是否为陷阱。
+     * 默认返回false，由{@code Trap}重写。
      *
-     * @return true if this square is a Trap, false otherwise
+     * @return 如果此方格是陷阱则返回true，否则返回false
      */
     public boolean isTrap() {
         return false;

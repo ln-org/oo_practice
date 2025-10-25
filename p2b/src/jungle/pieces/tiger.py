@@ -1,6 +1,6 @@
 """
-Represents a Tiger piece in Jungle game.
-Tiger can leap horizontally over water squares.
+表示丛林游戏中的老虎棋子。
+老虎可以水平跳跃越过水方格。
 """
 
 from typing import TYPE_CHECKING
@@ -13,25 +13,25 @@ if TYPE_CHECKING:
 
 class Tiger(Piece):
     """
-    A Tiger piece in the Jungle game.
+    丛林游戏中的老虎棋子。
     
-    The Tiger has rank 6 and can leap horizontally over water squares.
+    老虎的等级为6，可以水平跳跃越过水方格。
     """
     
     def __init__(self, owner: 'Player', square: 'Square'):
         """
-        Constructs a Tiger with owner and square.
-        Tiger has a rank of 6.
+        使用拥有者和方格构造一个老虎。
+        老虎的等级为6。
         
         Args:
-            owner: Player who owns this Tiger
-            square: Square occupied by this Tiger
+            owner: 拥有这个老虎的玩家
+            square: 这个老虎占据的方格
         """
         super().__init__(owner, square, 6)
     
     def can_leap_horizontally(self) -> bool:
         """
-        Indicates that the Tiger can leap horizontally.
+        指示老虎可以水平跳跃。
         
         Returns:
             True

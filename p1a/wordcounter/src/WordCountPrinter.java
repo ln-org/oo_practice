@@ -1,12 +1,11 @@
 import java.util.Arrays;
 
 /**
- * WordCountPrinter is responsible for printing words and their counts
- * in a formatted table or a simple summary.
+ * WordCountPrinter负责以格式化表格或简单摘要的形式
+ * 打印单词及其计数。
  *
- * It prints each word and its corresponding count, along with the total
- * count. The width of the columns is dynamically adjusted based on the
- * length of the longest word and the largest count.
+ * 它打印每个单词及其对应的计数，以及总计数。
+ * 列的宽度根据最长单词的长度和最大计数动态调整。
  */
 public class WordCountPrinter {
     private String[] words;
@@ -15,17 +14,16 @@ public class WordCountPrinter {
     private int countColWidth = "COUNT".length();
 
     /**
-     * Constructs a WordCountPrinter object with the given words and
-     * their corresponding counts.
+     * 使用给定的单词及其对应的计数构造一个WordCountPrinter对象。
      *
-     * @param words  The array of words to display.
-     * @param counts The array of counts corresponding to each word.
+     * @param words  要显示的单词数组。
+     * @param counts 与每个单词对应的计数数组。
      */
     public WordCountPrinter(String[] words, int[] counts) {
         this.words = Arrays.copyOf(words, words.length);
         this.counts = Arrays.copyOf(counts, counts.length);
 
-        // Calculate the maximum column widths based on the words and counts
+        // 根据单词和计数计算最大列宽
         for (int i = 0; i < words.length; i++) {
             if (words[i].length() > wordColWidth) {
                 wordColWidth = words[i].length();
@@ -38,9 +36,8 @@ public class WordCountPrinter {
     }
 
     /**
-     * Prints the word count results. If only one word is counted, it prints
-     * a simple summary. If multiple words are counted, it prints the results
-     * in a formatted table.
+     * 打印单词计数结果。如果只统计一个单词，则打印简单摘要。
+     * 如果统计多个单词，则以格式化表格的形式打印结果。
      */
     public void print() {
         if (words.length <= 1) {
@@ -57,27 +54,27 @@ public class WordCountPrinter {
     }
 
     /**
-     * Prints a table displaying each word and its corresponding count,
-     * followed by a total count of all words.
+     * 打印一个表格，显示每个单词及其对应的计数，
+     * 最后显示所有单词的总计数。
      */
     private void printTable() {
-        // print header
+        // 打印表头
         printBorder();
         printRow("WORD", "COUNT");
 
-        // print content
+        // 打印内容
         printBorder();
         for (int i = 0; i < words.length; i++) {
             printRow(words[i], counts[i]);
         }
 
-        // print footer
+        // 打印表尾
         printBorder();
         printRow("TOTAL", getTotalCount());
         printBorder();
     }
 
-    // Calculate the total count of all searching words.
+    // 计算所有搜索单词的总计数
     private int getTotalCount() {
         int totalCount = 0;
         for (int i : counts) {
@@ -86,6 +83,10 @@ public class WordCountPrinter {
         return totalCount;
     }
 
+    /**
+     * 打印表格的边框线。
+     * 根据列宽绘制由竖线和横线组成的边框。
+     */
     private void printBorder() {
         System.out.print("|-");
         for (int i = 0; i < wordColWidth; i++) {
@@ -98,10 +99,23 @@ public class WordCountPrinter {
         System.out.println("-|");
     }
 
+    /**
+     * 打印表格中的一行，包含单词和计数。
+     * 
+     * @param word  要显示的单词
+     * @param count 要显示的计数（整数类型）
+     */
     private void printRow(String word, int count) {
         printRow(word, Integer.toString(count));
     }
 
+    /**
+     * 打印表格中的一行，包含单词和计数字符串。
+     * 自动调整列宽以对齐显示。
+     * 
+     * @param word  要显示的单词
+     * @param count 要显示的计数（字符串类型）
+     */
     private void printRow(String word, String count) {
         System.out.print("| ");
         System.out.print(word);

@@ -4,24 +4,24 @@ import jungle.Player;
 import jungle.squares.Square;
 
 /**
- * Represents a Rat piece in Jungle game.
- * Rat is the weakest piece (rank 1) but has ability to swim.
+ * 表示丛林游戏中的老鼠棋子。
+ * 老鼠是最弱的棋子（等级1）但具有游泳能力。
  */
 public class Rat extends Piece {
 
     /**
-     * Constructs a Rat with owner and square.
-     * Rat has a rank of 1.
+     * 使用拥有者和方格构造一个老鼠。
+     * 老鼠的等级为1。
      * 
-     * @param owner     player who owns this Rat
-     * @param square    square occupied by this Rat
+     * @param owner     拥有这个老鼠的玩家
+     * @param square    这个老鼠占据的方格
      */
     public Rat(Player owner, Square square) {
         super(owner, square, 1);
     }
 
     /**
-     * Indicates that the Rat can swim.
+     * 指示老鼠可以游泳。
      * 
      * @return true
      */

@@ -1,6 +1,6 @@
 """
-Represents main game logic and state for Jungle game.
-Manages the game board, players, pieces, turns, and game rules.
+表示丛林游戏的主要游戏逻辑和状态。
+管理游戏棋盘、玩家、棋子、回合和游戏规则。
 """
 
 from typing import List, Optional, Dict
@@ -20,41 +20,40 @@ from .squares.trap import Trap
 
 class Game:
     """
-    Main game class for Jungle (Dou Shou Qi).
+    丛林（斗兽棋）的主游戏类。
     
-    Manages the game board, players, pieces, and game rules.
+    管理游戏棋盘、玩家、棋子和游戏规则。
     """
     
-    # Board height (rows)
+    # 棋盘高度（行数）
     HEIGHT = 9
     
-    # Board width (columns)
+    # 棋盘宽度（列数）
     WIDTH = 7
     
-    # Rows with water squares
+    # 有水方格的行
     WATER_ROWS = [3, 4, 5]
     
-    # Columns with water squares
+    # 有水方格的列
     WATER_COLS = [1, 2, 4, 5]
     
-    # Column index of the Dens
+    # 兽穴的列索引
     DEN_COL = 3
     
     def __init__(self, p0: Player, p1: Player):
         """
-        Constructs a Game instance with two players.
-        Initializes game board with board squares and sets the turn to
-        the first player.
+        使用两个玩家构造一个游戏实例。
+        用棋盘方格初始化游戏棋盘，并将回合设置为第一个玩家。
         
         Args:
-            p0: First player
-            p1: Second player
+            p0: 第一个玩家
+            p1: 第二个玩家
         """
         self._p0 = p0
         self._p1 = p1
         self._players = [p0, p1]
         
-        # Initialize game board
+        # 初始化游戏棋盘
         self._squares: List[List[Square]] = [[None] * self.WIDTH 
                                                for _ in range(self.HEIGHT)]
         self._square_to_piece: Dict[Square, Piece] = {}
@@ -62,33 +61,31 @@ class Game:
         self._initialize_board_squares()
         self._current_turn = 0
     
-    def _initialize_board_squares(self):
+    def _initialize_board_squares(self) -> None:
         """
-        Initializes the game board by setting each square type (Plain,
-        Water, Den, Trap) at their respective positions.
-        The board is a 9x7 grid where certain squares are designated as
-        water squares, and each player's Den and Trap squares are placed
-        in specific locations.
+        通过在各自位置设置每种方格类型（平原、水域、兽穴、陷阱）来初始化游戏棋盘。
+        棋盘是一个9x7的网格，其中某些方格被指定为水域方格，
+        每个玩家的兽穴和陷阱方格都放置在特定位置。
         """
-        # Set all squares to PlainSquare initially
+        # 首先将所有方格设置为普通方格
         for row in range(self.HEIGHT):
             for col in range(self.WIDTH):
                 self._squares[row][col] = PlainSquare()
         
-        # Set WaterSquares based on predefined rows and columns
+        # 根据预定义的行和列设置水域方格
         for row in self.WATER_ROWS:
             for col in self.WATER_COLS:
                 self._squares[row][col] = WaterSquare()
         
-        # Set dens and traps for each player
-        # Set p0 den and traps
+        # 为每个玩家设置兽穴和陷阱
+        # 设置p0的兽穴和陷阱
         p0_den_row = 0
         self._squares[p0_den_row][self.DEN_COL] = Den(self._p0)
         self._squares[p0_den_row][self.DEN_COL - 1] = Trap(self._p0)
         self._squares[p0_den_row][self.DEN_COL + 1] = Trap(self._p0)
         self._squares[p0_den_row + 1][self.DEN_COL] = Trap(self._p0)
         
-        # Set p1 den and traps
+        # 设置p1的兽穴和陷阱
         p1_den_row = 8
         self._squares[p1_den_row][self.DEN_COL] = Den(self._p1)
         self._squares[p1_den_row][self.DEN_COL - 1] = Trap(self._p1)
@@ -97,12 +94,11 @@ class Game:
     
     def add_starting_pieces(self):
         """
-        Adds the starting pieces for both players according to their
-        initial positions and ranks.
+        根据初始位置和等级为两个玩家添加起始棋子。
         """
         initial_piece_configs = [
-            # [row, col, rank, player_number]
-            # player 0
+            # [行, 列, 等级, 玩家编号]
+            # 玩家0
             [2, 0, 1, 0],
             [1, 5, 2, 0],
             [1, 1, 3, 0],
@@ -111,7 +107,7 @@ class Game:
             [0, 6, 6, 0],
             [0, 0, 7, 0],
             [2, 6, 8, 0],
-            # player 1
+            # 玩家1
             [6, 6, 1, 1],
             [7, 1, 2, 1],
             [7, 5, 3, 1],
@@ -128,13 +124,13 @@ class Game:
     
     def add_piece(self, row: int, col: int, rank: int, player_number: int):
         """
-        Adds a piece at given position on the board.
+        在棋盘上的给定位置添加一个棋子。
         
         Args:
-            row: Row coordinate of the square on game board
-            col: Column coordinate of the square on game board
-            rank: Rank of the piece
-            player_number: Player number who owns the piece
+            row: 游戏棋盘上方格的行坐标
+            col: 游戏棋盘上方格的列坐标
+            rank: 棋子的等级
+            player_number: 拥有该棋子的玩家编号
         """
         player = self.get_player(player_number)
         square = self.get_square(row, col)
@@ -148,38 +144,37 @@ class Game:
         else:
             piece = Piece(player, square, rank)
         
-        # Put into square_to_piece
+        # 放入方格到棋子的映射中
         self._square_to_piece[self.get_square(row, col)] = piece
     
     def get_piece(self, row: int, col: int) -> Optional[Piece]:
         """
-        Get the piece at a specified position on the board.
+        获取棋盘上指定位置的棋子。
         
         Args:
-            row: Row coordinate on game board
-            col: Column coordinate on game board
-            
+            row: 游戏棋盘上的行坐标
+            col: 游戏棋盘上的列坐标
+        
         Returns:
-            Piece at given coordinate, or None if none exists
+            给定位置的棋子，如果没有棋子则返回None
         """
         square = self.get_square(row, col)
         return self._square_to_piece.get(square)
     
     def move(self, from_row: int, from_col: int, to_row: int, to_col: int):
         """
-        Moves a piece from one position to another.
+        将棋子从一个位置移动到另一个位置。
         
         Args:
-            from_row: Row coordinate of piece's current position
-            from_col: Column coordinate of piece's current position
-            to_row: Row coordinate of the destination position
-            to_col: Column coordinate of the destination position
+            from_row: 棋子当前位置的行坐标
+            from_col: 棋子当前位置的列坐标
+            to_row: 目标位置的行坐标
+            to_col: 目标位置的列坐标
             
         Raises:
-            IllegalMoveException: If the destination coordinates is not
-                                  legal for the piece
+            IllegalMoveException: 如果目标坐标对于该棋子不合法
         """
-        # Check if destination valid
+        # 检查目标位置是否有效
         if Coordinate(to_row, to_col) not in self.get_legal_moves(from_row, from_col):
             raise IllegalMoveException(
                 f"({to_row}, {to_col}) is not legal move"
@@ -193,30 +188,30 @@ class Game:
         if target_piece is not None:
             target_piece.be_captured()
         
-        # Move
+        # 移动棋子
         piece.move(self.get_square(to_row, to_col))
         
-        # Update square to piece HashMap
+        # 更新方格到棋子的映射
         del self._square_to_piece[source_square]
         self._square_to_piece[target_square] = piece
         
-        # Go to the other player's turn
+        # 轮到另一个玩家
         self._next_turn()
     
     def get_player(self, player_number: int) -> Player:
         """
-        Get player based on player number.
+        根据玩家编号获取玩家。
         
         Args:
-            player_number: Player number (0 or 1)
+            player_number: 玩家编号（0或1）
             
         Returns:
-            Player with the specified player number
+            具有指定玩家编号的玩家
             
         Raises:
-            ValueError: If the player number is invalid
+            ValueError: 如果玩家编号无效
         """
-        # Check player_number valid
+        # 检查玩家编号是否有效
         try:
             Player("check_player_number", player_number)
         except ValueError as e:
@@ -226,53 +221,52 @@ class Game:
     
     def get_winner(self) -> Optional[Player]:
         """
-        Determines the winner of the game.
-        A player wins if they capture the opponent's Den or if the
-        opponent has no pieces left.
+        确定游戏的获胜者。
+        如果玩家占领对手的兽穴或对手没有棋子剩余，则该玩家获胜。
         
         Returns:
-            The winning player, or None if there is no winner yet
+            获胜的玩家，如果还没有获胜者则返回None
         """
         if (
-            self._p0.has_captured_den()  # p0 captures p1's Den
-            or not self._p1.has_pieces()  # or p1 has no piece remaining
+            self._p0.has_captured_den()  # p0占领了p1的兽穴
+            or not self._p1.has_pieces()  # 或者p1没有剩余棋子
         ):
-            return self._p0  # p0 win
+            return self._p0  # p0获胜
         
         if (
-            self._p1.has_captured_den()  # p1 captures p0's Den
-            or not self._p0.has_pieces()  # or p0 has no piece remaining
+            self._p1.has_captured_den()  # p1占领了p0的兽穴
+            or not self._p0.has_pieces()  # 或者p0没有剩余棋子
         ):
-            return self._p1  # p1 win
+            return self._p1  # p1获胜
         
         return None
     
     def is_game_over(self) -> bool:
         """
-        Checks if the game is over.
+        检查游戏是否结束。
         
         Returns:
-            True if there is a winner, False otherwise
+            如果有获胜者则返回True，否则返回False
         """
         return self.get_winner() is not None
     
     def get_square(self, row: int, col: int) -> Square:
         """
-        Get the square at a specified coordinate on the game board.
+        获取游戏棋盘上指定坐标的方格。
         
         Args:
-            row: Row coordinate on board
-            col: Column coordinate on board
+            row: 棋盘上的行坐标
+            col: 棋盘上的列坐标
             
         Returns:
-            Square at the specified coordinate
+            指定坐标的方格
             
         Raises:
-            IndexError: If coordinates are outside game board
+            IndexError: 如果坐标在游戏棋盘外
         """
         if (
-            (row < 0 or row > self.HEIGHT - 1)  # exceed height
-            or (col < 0 or col > self.WIDTH - 1)  # exceed width
+            (row < 0 or row > self.HEIGHT - 1)  # 超出高度
+            or (col < 0 or col > self.WIDTH - 1)  # 超出宽度
         ):
             raise IndexError(
                 f"Coordinate exceed board bounds: ({row}, {col})"
@@ -282,14 +276,14 @@ class Game:
     
     def get_legal_moves(self, row: int, col: int) -> List[Coordinate]:
         """
-        Get legal moves for a piece at a specified coordinate.
+        获取指定坐标处棋子的合法移动。
         
         Args:
-            row: Current row coordinate
-            col: Current column coordinate
+            row: 当前行坐标
+            col: 当前列坐标
             
         Returns:
-            A list of legal coordinates where the piece can move
+            棋子可以移动的合法坐标列表
         """
         coordinates = []
         
@@ -297,22 +291,22 @@ class Game:
         selected_piece = self.get_piece(row, col)
         
         if (
-            selected_piece is None  # no piece at this coordinate
-            # or piece is not owned by player who can move this turn
+            selected_piece is None  # 该坐标没有棋子
+            # 或者棋子不属于当前回合可以移动的玩家
             or not selected_piece.is_owned_by(this_turn_player)
-            or self.is_game_over()  # or game is over
+            or self.is_game_over()  # 或者游戏已经结束
         ):
-            return coordinates  # return empty list
+            return coordinates  # 返回空列表
         
-        # 4 potential move directions
+        # 4个潜在的移动方向
         directions = [
-            Coordinate(-1, 0),  # upward
-            Coordinate(1, 0),   # downward
-            Coordinate(0, -1),  # leftward
-            Coordinate(0, 1),   # rightward
+            Coordinate(-1, 0),  # 向上
+            Coordinate(1, 0),   # 向下
+            Coordinate(0, -1),  # 向左
+            Coordinate(0, 1),   # 向右
         ]
         
-        # Explore square can move to in each of 4 directions
+        # 在4个方向中探索可以移动到的方格
         for direction in directions:
             coordinate = self._explore_direction(
                 row,
@@ -321,11 +315,11 @@ class Game:
                 direction.col()
             )
             
-            # if found a valid square, add to list
+            # 如果找到有效方格，添加到列表中
             if coordinate is not None:
                 coordinates.append(coordinate)
         
-        # return all valid squares in list
+        # 返回列表中所有有效方格
         return coordinates
     
     def _explore_direction(
@@ -336,24 +330,23 @@ class Game:
         col_direction: int
     ) -> Optional[Coordinate]:
         """
-        Explores a specified direction from a starting position to find if
-        there is a square can move to.
-        Handles cases where a piece can move directly to an adjacent square,
-        swim through water, or leap over water if the piece has that ability.
+        从起始位置探索指定方向，查找是否有可以移动到的方格。
+        处理棋子可以直接移动到相邻方格、在水中游泳或跳跃过水域的情况
+        （如果棋子具有该能力）。
         
         Args:
-            row: Starting row coordinate
-            col: Starting column coordinate
-            row_direction: Row direction (e.g., -1 for up, 1 for down)
-            col_direction: Column direction (e.g., -1 for left, 1 for right)
+            row: 起始行坐标
+            col: 起始列坐标
+            row_direction: 行方向（例如，-1表示向上，1表示向下）
+            col_direction: 列方向（例如，-1表示向左，1表示向右）
             
         Returns:
-            Target coordinate if the move is valid, or None if not allowed
+            如果移动有效则返回目标坐标，如果不允许则返回None
             
         Raises:
-            ValueError: If the direction is not valid
+            ValueError: 如果方向无效
         """
-        # Explore (move) direction can only be horizontally or vertically
+        # 探索（移动）方向只能是水平或垂直的
         if not (
             ((row_direction == -1 or row_direction == 1) and col_direction == 0)
             or (row_direction == 0 and (col_direction == -1 or col_direction == 1))
@@ -364,7 +357,7 @@ class Game:
             )
         
         try:
-            # Currently explore square
+            # 当前探索的方格
             explore_square = self.get_square(row + row_direction,
                                              col + col_direction)
             
@@ -373,30 +366,30 @@ class Game:
                                                col + col_direction)
             
             if (
-                # Explore directly adjacent square can move to
+                # 探索直接相邻的可移动方格
                 (
-                    # Square is not water or piece can swim
+                    # 方格不是水域或棋子可以游泳
                     not explore_square.is_water() or selected_piece.can_swim()
                 ) and (
-                    # Has a piece, but can defeat
+                    # 有棋子但可以击败
                     (destination_piece is not None
                      and selected_piece.can_defeat(destination_piece))
-                    # or doesn't have a piece
+                    # 或者没有棋子
                     or destination_piece is None
                 )
             ):
                 return Coordinate(row + row_direction, col + col_direction)
             elif (
-                # Explore square can jump to
+                # 探索可以跳跃到的方格
                 (
-                    # Adjacent square is water, and with no piece
+                    # 相邻方格是水域，并且没有棋子
                     explore_square.is_water() and destination_piece is None
                 ) and (
-                    # Selected piece can leap vertically
-                    # and currently explore vertical direction
+                    # 选中的棋子可以垂直跳跃
+                    # 并且当前探索垂直方向
                     (selected_piece.can_leap_vertically() and row_direction != 0)
-                    # or selected piece can leap horizontally
-                    # and currently explore horizontal direction
+                    # 或者选中的棋子可以水平跳跃
+                    # 并且当前探索水平方向
                     or (selected_piece.can_leap_horizontally() and col_direction != 0)
                 )
             ):
@@ -407,12 +400,12 @@ class Game:
                     destination_piece = self.get_piece(row + row_direction * step,
                                                        col + col_direction * step)
                     
-                    # Break explore, can't jump if piece occupies
-                    # intervening water
+                    # 停止探索，如果棋子占据了
+                    # 中间的水域则无法跳跃
                     if explore_square.is_water() and destination_piece is not None:
                         break
                     
-                    # Return square is not water, no piece or can be defeated
+                    # 返回的方格不是水域，没有棋子或可以被击败
                     if (
                         not explore_square.is_water()
                         and (
@@ -423,7 +416,7 @@ class Game:
                         return Coordinate(row + row_direction * step,
                                           col + col_direction * step)
                     
-                    # Explore next square
+                    # 探索下一个方格
                     step += 1
         except IndexError as e:
             import sys
@@ -432,9 +425,9 @@ class Game:
         return None
     
     def _get_turn(self) -> int:
-        """Get current turn number."""
+        """获取当前回合数。"""
         return self._current_turn
     
     def _next_turn(self):
-        """Advance to next turn."""
+        """进入下一回合。"""
         self._current_turn += 1

@@ -4,24 +4,24 @@ import jungle.Player;
 import jungle.squares.Square;
 
 /**
- * Represents a Tiger piece in Jungle game.
- * Tiger can leap horizontally over water squares.
+ * 表示丛林游戏中的老虎棋子。
+ * 老虎可以水平跳跃越过水方格。
  */
 public class Tiger extends Piece {
 
     /**
-     * Constructs a Tiger with owner and square.
-     * Tiger has a rank of 6.
+     * 使用拥有者和方格构造一个老虎。
+     * 老虎的等级为6。
      * 
-     * @param owner     player who owns this Tiger
-     * @param square    square occupied by this Tiger
+     * @param owner     拥有这个老虎的玩家
+     * @param square    这个老虎占据的方格
      */
     public Tiger(Player owner, Square square) {
         super(owner, square, 6);
     }
 
     /**
-     * Indicates that the Tiger can leap horizontally.
+     * 指示老虎可以水平跳跃。
      * 
      * @return true
      */

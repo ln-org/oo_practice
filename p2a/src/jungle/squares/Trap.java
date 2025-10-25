@@ -3,24 +3,24 @@ package jungle.squares;
 import jungle.Player;
 
 /**
- * Represents a Trap square on the Jungle game board.
- * Trap weakens opponent pieces.
+ * 表示丛林游戏棋盘上的陷阱方格。
+ * 陷阱会削弱对手棋子。
  */
 public class Trap extends Square {
 
     /**
-     * Constructs a Trap with owner.
+     * 使用拥有者构造一个陷阱。
      *
-     * @param owner  player who owns this Trap
+     * @param owner  拥有这个陷阱的玩家
      */
     public Trap(Player owner) {
         super(owner);
     }
 
     /**
-     * Indicates that this square is a Trap.
+     * 指示此方格是陷阱。
      * 
-     * @return true, as this square is a Trap
+     * @return true，因为此方格是陷阱
      */
     @Override
     public boolean isTrap() {

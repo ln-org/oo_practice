@@ -1,6 +1,6 @@
 """
-Represents a Trap square on the Jungle game board.
-Trap weakens opponent pieces.
+表示丛林游戏棋盘上的陷阱方格。
+陷阱会削弱对手的棋子。
 """
 
 from typing import TYPE_CHECKING
@@ -12,32 +12,32 @@ if TYPE_CHECKING:
 
 class Trap(Square):
     """
-    A Trap square on the game board.
+    游戏棋盘上的陷阱方格。
     
-    Traps weaken opponent pieces that step on them.
+    陷阱会削弱踩上它们的对手棋子。
     """
     
     def __init__(self, owner: 'Player'):
         """
-        Constructs a Trap with owner.
+        构造一个有拥有者的陷阱。
         
         Args:
-            owner: Player who owns this Trap
+            owner: 拥有该陷阱的玩家
         """
         super().__init__(owner)
     
     def is_trap(self) -> bool:
         """
-        Indicates that this square is a Trap.
+        指示该方格是陷阱。
         
         Returns:
-            True, as this square is a Trap
+            True，因为该方格是陷阱
         """
         return True
     
     def is_water(self) -> bool:
         """
-        Indicates that this square is not a Water square.
+        指示该方格不是水域方格。
         
         Returns:
             False
@@ -46,7 +46,7 @@ class Trap(Square):
     
     def is_den(self) -> bool:
         """
-        Indicates that this square is not a Den.
+        指示该方格不是兽穴。
         
         Returns:
             False

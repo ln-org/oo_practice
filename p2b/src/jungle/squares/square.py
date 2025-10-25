@@ -1,7 +1,7 @@
 """
-Represents a square of the 7 x 9 Jungle game board.
-Each square can have an owner, and may represent a specific type such as
-a Den, Trap, Water, or Plain square.
+表示7x9丛林游戏棋盘的一个方格。
+每个方格可以有一个拥有者，并且可以表示特定类型，
+如兽穴、陷阱、水或普通方格。
 """
 
 from abc import ABC, abstractmethod
@@ -13,62 +13,62 @@ if TYPE_CHECKING:
 
 class Square(ABC):
     """
-    Abstract base class for squares on the game board.
+    游戏棋盘上方格的抽象基类。
     
     Attributes:
-        owner: The player who owns this square (can be None)
+        owner: 拥有此方格的玩家（可以为None）
     """
     
     def __init__(self, owner: Optional['Player'] = None):
         """
-        Constructs a Square with owner.
+        使用拥有者构造一个方格。
         
         Args:
-            owner: Player who owns this square, can be None if no owner
+            owner: 拥有此方格的玩家，如果没有拥有者可以为None
         """
         self._owner = owner
     
     def is_owned_by(self, player: 'Player') -> bool:
         """
-        Checks if this square is owned by the specified player.
+        检查此方格是否属于指定玩家。
         
         Args:
-            player: Player to check ownership against
+            player: 要检查所有权的玩家
             
         Returns:
-            True if player owns this square, False otherwise
+            如果玩家拥有此方格则返回True，否则返回False
         """
         return player == self._owner
     
     @abstractmethod
     def is_water(self) -> bool:
         """
-        Indicates if this square is a Water square.
-        By default, returns False, is overridden by WaterSquare.
+        指示此方格是否为水方格。
+        默认返回False，由WaterSquare重写。
         
         Returns:
-            True if this square is a Water square, False otherwise
+            如果此方格是水方格则返回True，否则返回False
         """
         pass
     
     @abstractmethod
     def is_den(self) -> bool:
         """
-        Indicates if this square is a Den.
-        By default, returns False, is overridden by Den.
+        指示此方格是否为兽穴。
+        默认返回False，由Den重写。
         
         Returns:
-            True if this square is a Den, False otherwise
+            如果此方格是兽穴则返回True，否则返回False
         """
         pass
 
     @abstractmethod
     def is_trap(self) -> bool:
         """
-        Indicates if this square is a Trap.
-        By default, returns False, is overridden by Trap.
+        指示此方格是否为陷阱。
+        默认返回False，由Trap重写。
         
         Returns:
-            True if this square is a Trap, False otherwise
+            如果此方格是陷阱则返回True，否则返回False
         """
         pass
